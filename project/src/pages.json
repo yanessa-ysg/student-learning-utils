@@ -3,7 +3,13 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "好好学习，天天向上"
+			}
+		},
+		{
+			"path": "pages/math/index",
+			"style":{
+				"navigationBarTitleText": "数学加减乘除练习"
 			}
 		}
 	],
