@@ -17,6 +17,12 @@
 			"style":{
 				"navigationBarTitleText": "英语单词拼读练习"
 			}
+		},
+		{
+			"path": "pages/english/ocr",
+			"style":{
+				"navigationBarTitleText": "英语单词拼读练习"
+			}
 		}
 	],
 	"globalStyle": {

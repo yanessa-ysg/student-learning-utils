@@ -3,7 +3,7 @@ const request = new Request().http
 
 export function getAudioByText(data: any) {
     return request({
-        url: '/audio/' + data.text,
+        url: '/audio',
         data: data,
         responseType: 'arraybuffer', // 重要：指定响应类型为 arraybuffer
         header: {
