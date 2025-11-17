@@ -11,6 +11,12 @@
 			"style":{
 				"navigationBarTitleText": "数学加减乘除练习"
 			}
+		},
+		{
+			"path": "pages/english/index",
+			"style":{
+				"navigationBarTitleText": "英语单词拼读练习"
+			}
 		}
 	],
 	"globalStyle": {
