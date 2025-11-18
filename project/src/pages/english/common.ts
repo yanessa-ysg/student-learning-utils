@@ -1,6 +1,8 @@
 import {getAudioByText, getTextByAudo} from '@/common/api'
+import { v4 as uuidv4 } from 'uuid';
 
-export const generateAudio = (inputWord) => {
+
+export const generateAudio = (inputWord: string) => {
     const word = inputWord
     if (!word) {
         uni.showToast({
@@ -11,10 +13,11 @@ export const generateAudio = (inputWord) => {
     uni.showLoading({
         title: '生成音频中...'
     });
-    getAudioByText({text: word})
+    const uuid = uuidv4()
+    getAudioByText({text: word, file_name: uuid})
     .then((res) => {
         handleAudioData(res)
-        audioIsCorrect(word)
+        audioIsCorrect(word, uuid)
     }).finally(() => {
         uni.hideLoading()
     })
@@ -50,13 +53,17 @@ const playBase64Audio = (base64Audio: any) => {
   })
 }
 
-const audioIsCorrect = (text) => {
-    getTextByAudo({text})
+const audioIsCorrect = (text: string, uuid: string) => {
+    getTextByAudo({text: uuid})
     .then((res: any) => {
         if (res.code === 0 && res.data) {
             const outputWord = res.data
-            const isSame = outputWord.replaceAll('.', '').toLocaleLowerCase().trim() == text.toLocaleLowerCase().trim()
-            console.log(outputWord.replaceAll('.', '').toLocaleLowerCase(), '===', text.replaceAll('.', '').replaceAll(',', '').toLocaleLowerCase(), isSame)
+            const isSame = trimText(outputWord) == trimText(text)
+            console.log(trimText(outputWord), '===', trimText(text), isSame)
         }
     })
+}
+
+const trimText = (text: string) => {
+    return text.replaceAll('.', '').replaceAll(',', '').toLowerCase().trim()
 }

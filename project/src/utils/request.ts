@@ -4,7 +4,16 @@ export default class Request {
         let url = param.url, method = param.method || 'GET', header = param.header || {}, data = {...param.data}, responseType = param.responseType
         let requestUrl = config.api + url
         if (method) {
-
+            method = method.toUpperCase()
+            if (method === 'POST') {
+                header = {
+                'content-type': "application/x-www-form-urlencoded"
+                };
+            } else {
+                 header = {
+                    'content-type': "application/json"
+                };
+            }
         }
         return new Promise((resolve, reject) => {
             uni.request({
