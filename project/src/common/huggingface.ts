@@ -33,7 +33,9 @@ export async function  tts(inputs: string) {
         inputs
   });
   console.log(output);
-  await speechToText(output, inputs)
+  const arrayBuffer = await output.arrayBuffer()
+  return arrayBuffer
+  // await speechToText(output, inputs)
 }
 
 export async function speechToText (blob: Blob, inputText: string) {

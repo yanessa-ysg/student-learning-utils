@@ -60,7 +60,7 @@ const handleImageToText = async () => {
     // console.log('dataUrl', dataUrl)
     const outputText = await imageToText(dataUrl)
     console.log(outputText?.content)
-    texts.value = outputText?.content?.split('\n')
+    texts.value = outputText?.content?.split('\n').filter(item => item.trim().length > 0)
     uni.hideLoading()
 }
 

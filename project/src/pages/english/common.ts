@@ -15,7 +15,9 @@ export const generateAudio = async (inputWord: string) => {
         title: '生成音频中...'
     });
     
-    await tts(inputWord)
+    const arrayBuffer = await tts(inputWord)
+    handleAudioData(arrayBuffer)
+
     uni.hideLoading()
     
 }
