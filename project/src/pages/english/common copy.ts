@@ -1,9 +1,8 @@
 import {getAudioByText, getTextByAudo} from '@/common/api'
-import { tts } from '@/common/huggingface'
 import { v4 as uuidv4 } from 'uuid';
 
 
-export const generateAudio = async (inputWord: string) => {
+export const generateAudio = (inputWord: string) => {
     const word = inputWord
     if (!word) {
         uni.showToast({
@@ -14,9 +13,15 @@ export const generateAudio = async (inputWord: string) => {
     uni.showLoading({
         title: '生成音频中...'
     });
-    
-    await tts(inputWord)
-    uni.hideLoading()
+    const uuid = uuidv4()
+    getAudioByText({text: word, file_name: uuid})
+    .then((res) => {
+        handleAudioData(res)
+        audioIsCorrect(word, uuid)
+    }).finally(() => {
+        uni.hideLoading()
+    })
+    // 判断读的音频对不对
     
 }
 
