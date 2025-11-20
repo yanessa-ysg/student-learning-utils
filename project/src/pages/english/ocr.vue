@@ -55,7 +55,7 @@ const handleImageToText = async () => {
      uni.showLoading({
         title: '文字识别中...'
     })
-
+    
     const dataUrl: any = await blobUrlToDataUrl(tempFilePath.value);
     // console.log('dataUrl', dataUrl)
     const outputText = await imageToText(dataUrl)
@@ -67,14 +67,30 @@ const handleImageToText = async () => {
 async function blobUrlToDataUrl(blobUrl: string) {
     try {
         // 获取blob数据
-        const response = await fetch(blobUrl);
-        const blob = await response.blob();
-        
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
+         return new Promise((resolve, reject) => {
+           uni.request({
+            url: blobUrl, //仅为示例，并非真实接口地址。
+           
+            responseType: 'arraybuffer', // 或者 'blob' (部分版本支持)
+            success: (res) => {
+                console.log('H5 请求结果:', res.data);
+                // res.data 可能是 ArrayBuffer
+                //
+                const arrayBuffer: string | AnyObject | ArrayBuffer = res.data
+                if (arrayBuffer instanceof ArrayBuffer) {
+                 const base64 = uni.arrayBufferToBase64(arrayBuffer)
+                 const dataUrl = `data:image/jpeg;base64,${base64}`
+                 resolve(dataUrl);
+                 } else {
+                    reject()
+                 }
+            },
+            fail: (error) => {
+                console.error('H5 请求失败:', error);
+                reject();
+            }
+        });
+            
         });
     } catch (error) {
         console.error('转换失败:', error);
