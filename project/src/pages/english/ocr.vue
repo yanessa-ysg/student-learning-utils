@@ -73,7 +73,7 @@ async function blobUrlToDataUrl(blobUrl: string) {
            
             responseType: 'arraybuffer', // 或者 'blob' (部分版本支持)
             success: (res) => {
-                console.log('H5 请求结果:', res.data);
+                // console.log('H5 请求结果:', res.data);
                 // res.data 可能是 ArrayBuffer
                 //
                 const arrayBuffer: string | AnyObject | ArrayBuffer = res.data

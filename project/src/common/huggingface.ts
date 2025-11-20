@@ -3,7 +3,7 @@ const KEY = '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'
 const client = new InferenceClient(KEY)
 
 export async function imageToText(image_url: string) {
-  console.log(image_url)
+  //console.log(image_url)
   const chatCompletion = await client.chatCompletion({
     model: "google/gemma-3-27b-it:nebius",
     messages: [
