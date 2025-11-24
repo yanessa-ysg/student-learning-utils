@@ -1,8 +1,35 @@
 import { InferenceClient } from '@huggingface/inference'
-const KEY = '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'
-const client = new InferenceClient(KEY)
+let client: any = null
+const token = 'nfp_HzuZeuUw3TNbozYTwT96LixRc1W5zvaG72ab'
+
+ async function fetchKey() {
+      try {
+        const response = await fetch('https://api.netlify.com/api/v1/sites/36372d26-f31d-4de3-ae82-a59acf47cca3/env', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data)
+        const key = data.filter((item: any) => item.key === "huggingface_key")[0]?.values[0]?.value
+        client = new InferenceClient(key)
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+       
+      }
+}
+await fetchKey()
 
 export async function imageToText(image_url: string) {
+  if (!client) {
+    await fetchKey
+  }
   //console.log(image_url)
   const chatCompletion = await client.chatCompletion({
     model: "google/gemma-3-27b-it:nebius",
@@ -27,6 +54,9 @@ export async function imageToText(image_url: string) {
   return chatCompletion.choices[0].message
 }
 export async function  tts(inputs: string) {
+  if (!client) {
+    await fetchKey
+  }
   console.log("输入的文本是：" + inputs)
   const output = await client.textToSpeech({
        provider: "replicate",
@@ -40,6 +70,9 @@ export async function  tts(inputs: string) {
 }
 
 export async function speechToText (blob: Blob, inputText: string) {
+    if (!client) {
+      await fetchKey
+    }
     if(!blob) {
         return
     } 
