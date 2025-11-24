@@ -24,11 +24,10 @@ const token = 'nfp_HzuZeuUw3TNbozYTwT96LixRc1W5zvaG72ab'
        
       }
 }
-await fetchKey()
 
 export async function imageToText(image_url: string) {
   if (!client) {
-    await fetchKey
+    await fetchKey()
   }
   //console.log(image_url)
   const chatCompletion = await client.chatCompletion({
@@ -55,7 +54,7 @@ export async function imageToText(image_url: string) {
 }
 export async function  tts(inputs: string) {
   if (!client) {
-    await fetchKey
+    await fetchKey()
   }
   console.log("输入的文本是：" + inputs)
   const output = await client.textToSpeech({
@@ -71,7 +70,7 @@ export async function  tts(inputs: string) {
 
 export async function speechToText (blob: Blob, inputText: string) {
     if (!client) {
-      await fetchKey
+      await fetchKey()
     }
     if(!blob) {
         return
